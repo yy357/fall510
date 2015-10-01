@@ -204,6 +204,9 @@ b<-seq(3,39, 2)
 #create sequence from 3 to 39 by 2
 c<-a/b
 #define c as a/b
-m<-sum(1+cumprod(l))
+cumprod(c)
+m<-1+sum(cumprod(c))
+m
+
 #calculate answer by cumprod and to get the end solution
 ```
