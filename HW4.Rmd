@@ -1,0 +1,209 @@
+---
+title: "HW4"
+author: "Yuan Yuan"
+date: "2015Äê10ÔÂ1ÈÕ"
+output: html_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+summary(cars)
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Problem 1 
+a
+```{r}
+a1<-c(1:20)
+#create vector a1 from 1 to 20, assumed by 1
+```
+b
+```{r}
+a2<-c(20:1)
+#create vector a2 from 20 to 1,by -1
+```
+c
+```{r}
+a3<-c(1:20,19:1)
+#create a vector from 1 to 20, and add a vector from 19 to 1
+```
+d
+```{r}
+tmp<-c(4,6,3)
+#create vector(4,6,3) and name it as tmp
+```
+e
+```{r}
+rep(tmp,10)
+#repeat tmp 10 times, then there would be 10 occurances of 4
+```
+f
+```{r}
+rep(tmp,l=31)
+#repeat tmp until the length comes up to 31
+```
+g
+```{r}
+ rep(tmp,times=c(10,20,30))
+#repeat tmp element one by one,times 4 for 10 times, 6 for 20 times,3 for 30 time.
+```
+
+Problem 2
+```{r}
+x<-seq(3,6,0.1)
+#create x from 3 to 6, by 0.1
+exp(x)*cos(x)
+#imput x into the calculation
+```
+
+Problem 3
+a
+```{r}
+x<-seq(3,36,3)
+#a sequence from 3 to 36, by 3 called x
+y<-seq(1,34,3)
+#a sequence from 3 to 36, by 3 called y
+z<-c((.1^x)*(.2^y))
+#input x,y into calculation of z
+```
+b
+```{r}
+(2^seq(1,25))/(seq(1,25))
+#denominator from 1 to 25, assumes by 1;numerator is 2^1 to 25, by 1.devide them one by one
+```
+
+Problem 4
+a
+```{r}
+tmp <- 10:100
+#create 10 to 100 by 1 called tmp
+sum(tmp^3+4*tmp^2)
+#input tmp into equation to calculate summation
+```
+b
+```{r}
+tmp <- 1:25
+#define sequence from 1 to 25 called tmp
+sum((2^tmp)/tmp + 3^tmp/(tmp^2))
+#input tmp into equation and calculate summation
+```
+
+Problem 5
+a
+```{r}
+paste(c("label"),1:30,sep=" ")
+#paste concatenate vectors after converting to characeter.Here, we use vector label from 1 to 30.The sep=" "means there is single space between label and number.
+```
+b
+```{r}
+paste(c("fn"),1:30,sep="")
+#similar to previous problem, except we use sep="", then there is no space between fn and number
+```
+
+Problem 6
+a
+```{r}
+set.seed(50)
+xVec <- sample(0:999, 250, replace=T)
+yVec <- sample(0:999, 250, replace=T)
+a<-c(2:250)
+#create vector a from 2 to 250 by 1,with the sample length 250
+b<-c(1:249)
+#create vector b from 1 to 249 by 1,with the sample length 250
+yVec[a]-xVec[b]
+#y2-x1 to y250-x249 one by one
+```
+b
+```{r}
+set.seed(50)
+xVec <- sample(0:999, 250, replace=T)
+yVec <- sample(0:999, 250, replace=T)
+a<-c(2:250)
+#create vector a from 2 to 250 by 1,with the sample length 250
+b<-c(1:249)
+#create vector b from 1 to 249 by 1,with the sample length 250
+sin(yVec[b])/cos(xVec[a])
+#sin1/cos2 to sin 249 to cos 250 one by one
+```
+c
+```{r}
+x<-c(1:248)
+y<-c(2:249)
+z<-c(3:250)
+set.seed(50)
+xVec <- sample(0:999, 250, replace=T)
+v<-c(xVec[x]+(2*xVec[y])-xVec[z])
+#x1+2x2-x3 to x248+2x249-x250 one by one
+```
+d
+```{r}
+i = (1:249)
+#create i from 1 to 249 by 1
+sum((exp(xVec)[i+1])/(xVec[i]+10))
+#calculate summation
+```
+
+Problem 7
+a
+```{r}
+yVec[yVec>600]
+#find the numbers which bigger than 600
+```
+b
+```{r}
+which(yVec>600)
+#which gives the TRUE position where yvec bigger than 600
+```
+c
+```{r}
+xVec[yVec>600]
+#position of xVec have same position of yVec where yvec is bigger than 600
+```
+d
+```{r}
+sqrt(abs(xVec-mean(xVec)))
+#calculate mean xvec first;using xVex minus mean and alsolute the answer,and sqrt them in the end
+```
+e
+```{r}
+sum( yVec>max(yVec)-200 )
+#max()is a function to find maximum.We can find some value of yVec bigger than maximun-200. In the end, we can count the number by using sum.
+```
+f
+```{r}
+sum(xVec%%2==0)
+#xVec%%2==o are the numbers that divisible by 2,we can use sum to count number.
+```
+g
+```{r}
+xVec[order(yVec)]
+#order yVec increasingly,and then sort xVec.
+```
+h
+```{r}
+a<-seq(1, length(yVec), 3)
+#create squence from 1 to length of yVec(250), by three
+yVec[a]
+#input a and find the value of y Vec
+```
+
+Problem 8
+```{r}
+a<-seq(2, 38, 2)
+#create sequence from 2 to 38 by 2
+b<-seq(3,39, 2)
+#create sequence from 3 to 39 by 2
+c<-a/b
+#define c as a/b
+m<-sum(1+cumprod(l))
+#calculate answer by cumprod and to get the end solution
+```
