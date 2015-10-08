@@ -1,0 +1,99 @@
+---
+title: "HW 5"
+author: "Yuan Yuan"
+date: "2015Äê10ÔÂ7ÈÕ"
+output: html_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+summary(cars)
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+HW 1
+Figure	out	how	to	generically	extract	all	numeric	columns	from	
+any	data	frame	so	the	method	you	develop	can	be	used	on	any	
+data
+```{r}
+#We can first define a function and give a specific way to extract columes number. After do that, we can test it by using diamonds example.
+Conum<-function(data){#define a function called clnum in order to extract numbers
+  numdata<-data[sapply(data, is.numeric)]#by using sapply, we can extract all numeric columes. We define this vector as numdata.
+  return (numdata)# output numdata
+}
+#test diamonds
+library (ggplot2)#get the packages ggplot2
+Conum(diamonds)#Consider diamonds as data and process the function
+print(Conum)#show output
+```
+
+HW2
+Create	a	data	frame	that	contains	each	pair	of	variable	names	in	
+the	first	column	in	a	single	string	separated	by	a	-,	e.g.	for	the	
+variables	x	and	y,	you	should	form	the	string	¡°x-y¡±	(HINT:	Look	at	
+the	help	provided	for	the	paste	function)	and	their	corresponding	
+Pearson	correlation	coefficient	in	the	second	column.	(HINT:	
+There	is	a	function	that	calculates	correlation	coefficients	¨C	look	
+carefully	at	what	is	returned	and	optimize	how	you	extract	the	
+correlation	coefficients).	Do	not	repeat	any	pairs.
+```{r}
+#When we need to find the Pearson correlation coefficients, we firstly need to separate each column in the data frame, and calculate the coefficients by using the columns. So, we first build a function which is used to extract columns numbers, and then give two vectors, one for the titles and another one for the coefficients. In this way, we could initial a variable and output what we want
+Colcurr <- function(data){
+  data <- Conum(data) #use Conum function to seperate each number column of data
+  corrT <- c()#create a vector, containing titles for each pair; the value will be "x-y"form, x & y are the titles for column 1 &2
+  corrV <- c()# create a vector, containing the Pearson correlation coefficient for each pair of columns
+  k = 1# initial k euqals to 1 
+  for(i in 1:(ncol(data)-1)){# loop through each colum in data
+    for(j in (i+1):(ncol(data))){#loop at i+1 to avoid repeating pairs of columns, ant getting useless correlations
+      corrT[k] <-paste(colnames(data)[i],"-",colnames(data)[j],sep="")#get the title of the pair of column
+      corrV[k] <- cor(data[,i],data[,j],method="pearson")#get the correlation of the pair of column
+      k <- k+1#k is increased by 1
+    }
+  }
+  corrFrame <- data.frame(matrix(ncol=0,nrow=k-1))#initial a variable containing rows for the previous pairs of columns
+   corrFrame["Columns"] <- corrT#add title column to the variable corrFrame
+   corrFrame["Correlation"] <- corrV#add correlation column to the variable corrFrame
+   return(corrFrame)
+}
+testCorr = Colcurr(diamonds)
+print(testCorr)
+```
+HW 3
+Create	and	label	a	scatter	plot	for	every	pair	of	numeric	variables.	
+Add	a	title	to	the	plot	that	contains	the	calculated	Pearson	
+correlation	coefficient	of	variables	contained	in	the	plot.	(HINT:	
+You	should	figure	out	how	to	extract	all	numeric	columns	from	a	
+data	frame	so	your	method	can	be	used	on	any	data	frame.)	
+```{r}
+#First use the similar way as HW 2 to get the correlation between all colume numbwe, the we put each x on x axes, and put y on y axes. By using these data, we can scatter the plots. 
+Plot <- function(data){
+  dat <- Conum(data)#use Conum function to seperate each number column of data
+  coPlots <- list()#define coPlots scatter the numbers of column, and define the initial is empty list.
+  k <- 1#initial k euqals to 1
+  for(i in 1:(ncol(dat)-1)){# loop through each colum in data
+    for(j in (i+1):(ncol(dat))){{#loop at i+1 to avoid repeating pairs of columns, ant getting useless correlations
+      plotFrame <- data.frame(dat[,i],dat[,j])#define dataFrame to collect all the data we need
+      x <- colnames(dat)[i] #gather i and let it all plotted on x 
+      y <- colnames(dat)[j] #gather j and let it all plotted on y
+      colnames(plotFrame) <- c(x,y)#name axes as x and y
+      xyCorr <- cor(dat[,i],dat[,j],method="pearson")#get the correlation of the pair of column
+      coPlots[[k]] <- (ggplot(plotFrame,aes(x,y))+geom_point()+ggtitle(paste("Correlation")))
+      #use ggplot to draw the the graph, darw x and y on the graph by points. We give the graph title in the end.
+      k <- k+1#get total number of k
+    }
+  }
+  return(coPlots)#output
+}
+testPlots = Plot(diamonds)#Tests the function
+print(testPlots)# output
+
