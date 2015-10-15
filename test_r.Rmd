@@ -7,6 +7,8 @@ Question 1
 ```{r}
 #keep ratio of 1 and 0 in unchanged and times lines in diamonds repeat as TRUE and FALSE.Add to its col.
 require (ggplot2)#loads ggplot2 
+data("diamonds")
+data("mtcars")
 new1<-length(which(mtcars$vs==1))#define new1 to be the number of roles with 1 in vs
 new2<-length(which(mtcars$vs==0))#define new1 to be the number of roles with 0 in vs
 nr<-nrow(mtcars)#define nr to count the rows in mtcars 
@@ -18,9 +20,10 @@ Question 2
 Exc <- function(dataFrame){
 fac <- dataFrame[sapply(dataFrame,is.factor)]#use "sapply" to isolate factor columns in the frame
 log <- dataFrame[sapply(dataFrame,is.logical)]#use "sapply" to isolate logical columns in the frame
-Newf <- blind(fac,log)#combine factor and log together
+Newf <- cbind(fac,log)#combine factor and log together
 return(Newf)
 }
+Exc(diamonds)->Newf
 ```
 
 Question 3
@@ -28,9 +31,9 @@ Question 3
 for (i in seq_len(ncol(Newf))){#for loop through each column in Newf
   nplot<-ggplot(Newf,aesx=Newf[[i]])+#using ggplot to draw picture
   geom_bar(fill="gray")+#filled color is gray and using bar
-  labs(colnames(Newf)[i])+#lable
-  ggtitle(plot_fl)#title
-print(nplot)#output
+  labs(colnames(Newf)[i])#lable
+  
+ nplot#output
 }
 
 ```
@@ -42,3 +45,4 @@ for (i in 1:ncol(Newf)){#using for loop to count frequency for each variable
   lista<-c(lista,list(table(Newf[i])))}#put these tables in one list
 lista
 ```
+
