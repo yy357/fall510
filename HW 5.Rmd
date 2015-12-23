@@ -1,9 +1,12 @@
 ---
 title: "HW 5"
 author: "Yuan Yuan"
-date: "2015Äê10ÔÂ7ÈÕ"
+date: "2015??10??7??"
 output: html_document
 ---
+
+SW: did you test your code? this document didn't knit together due to formatting
+issues, I've fixed them so it would work. you lost a few points for this.
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
@@ -40,10 +43,10 @@ print(Conum)#show output
 HW2
 Create	a	data	frame	that	contains	each	pair	of	variable	names	in	
 the	first	column	in	a	single	string	separated	by	a	-,	e.g.	for	the	
-variables	x	and	y,	you	should	form	the	string	¡°x-y¡±	(HINT:	Look	at	
+variables	x	and	y,	you	should	form	the	string	??x-y??	(HINT:	Look	at	
 the	help	provided	for	the	paste	function)	and	their	corresponding	
 Pearson	correlation	coefficient	in	the	second	column.	(HINT:	
-There	is	a	function	that	calculates	correlation	coefficients	¨C	look	
+There	is	a	function	that	calculates	correlation	coefficients	?C	look	
 carefully	at	what	is	returned	and	optimize	how	you	extract	the	
 correlation	coefficients).	Do	not	repeat	any	pairs.
 ```{r}
@@ -93,7 +96,44 @@ Plot <- function(data){
     }
   }
   return(coPlots)#output
+  }
+# SW: added brace to close function
 }
+
 testPlots = Plot(diamonds)#Tests the function
 print(testPlots)# output
+```
 
+```{r, eval = F}
+# SW: lost points: you were supposed to create scatterplots of each pair of
+# variables. instead, it appears that you plotted the correlations. here is
+# code to achieve the correct outcome.
+get_numeric <- function(dat) {
+  nc <- lapply(dat, class) %in% c("numeric","integer")
+  return(dat[,nc])
+}
+
+corrfn <- function(dat) {
+  comb <- combn(colnames(dat), 2)
+  out <- apply(comb, MARGIN = 2, 
+               FUN = function(x) {
+                 return(c(paste(x[1], x[2], sep="-"), 
+                          cor(dat[x[1]], dat[x[2]])))
+               })
+  return(data.frame(vars = out[1,], corr = out[2,]))
+}
+
+plotnum <- function(dat) {
+  dat_nc <- get_numeric(dat)
+  lbl <- corrfn(dat_nc)
+  comb <- combn(colnames(dat_nc), 2)
+  apply(comb, MARGIN = 2,
+        FUN = function(x) {
+          plot(dat_nc[,x[1]], dat_nc[,x[2]], xlab = x[1], ylab = x[2],
+               main = paste0(x[1],"-",x[2],": ",
+                             lbl[lbl[,1] == paste(x[1],x[2],sep="-"),2]))
+        })
+}
+
+plotnum(diamonds)
+```
