@@ -1,7 +1,7 @@
 ---
 title: "HW4"
 author: "Yuan Yuan"
-date: "2015Äê10ÔÂ1ÈÕ"
+date: "2015??10??1??"
 output: html_document
 ---
 
@@ -74,6 +74,7 @@ y<-seq(1,34,3)
 #a sequence from 3 to 36, by 3 called y
 z<-c((.1^x)*(.2^y))
 #input x,y into calculation of z
+z
 ```
 b
 ```{r}
@@ -143,12 +144,16 @@ set.seed(50)
 xVec <- sample(0:999, 250, replace=T)
 v<-c(xVec[x]+(2*xVec[y])-xVec[z])
 #x1+2x2-x3 to x248+2x249-x250 one by one
+v
 ```
 d
 ```{r}
 i = (1:249)
 #create i from 1 to 249 by 1
 sum((exp(xVec)[i+1])/(xVec[i]+10))
+# SW: lost points: your sum went to infinity because the summand is incorrect, 
+# should be a negative in the exponent:
+sum(exp(-xVec[2:250]) / (xVec[1:249] + 10))
 #calculate summation
 ```
 
