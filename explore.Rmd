@@ -2,6 +2,8 @@
 title: "explore"
 author: "Yuan Yuan"
 
+SW: did you test your code? it doesn't work as written. i've modified it to get it working. your output is hard to read, you're dropping labels from the frequency tables, so it's difficult to tell which variable is which. and, you need to consider the absolute value of the correlation coefficient; currently, you are looking only at positive values.
+
 ```{r}
 require(grid)
 require(ggplot2)
@@ -20,7 +22,11 @@ if (length(varnum) > 0){ #if there are numeric columns
       num_bins <- (max(varnum[[i]])-min(varnum[[i]]))/bin_sizes[bins] #the number of bins based on the bin size from bin_sizes
       col_mean <- mean(varnum[[i]]) #the mean of the ith numeric column
       Num_Plot <- ggplot(varnum, aes(x=varnum[[i]]), environment=environment()) #sets varnum to be the data frame for ggplot and sets the ith column to be the x aesthetic and uses the environment parameter to work on the scoping issue.
-      Num_Plot <- Num_Plot + geom_histogram(colour='blue', fill='blue', binwidth=numbins) + labs(x=names(varnum)[[i]]) + geom_vline(xintercept=col_mean, colour='red') #define the histogram. The color of the bars is made to be blue and the binwidth is made to num_bins. The label for the x axis is made to be the name of the ith numeric column. A red vertical line for the mean is added.
+      #Num_Plot <- Num_Plot + geom_histogram(colour='blue', fill='blue', binwidth=numbins) + labs(x=names(varnum)[[i]]) + geom_vline(xintercept=col_mean, colour='red') 
+      # SW: you refer to numbins, but you define an object called num_bins. you
+      # would have caught this had you tested your code.
+      Num_Plot <- Num_Plot + geom_histogram(colour='blue', fill='blue', binwidth=num_bins) + labs(x=names(varnum)[[i]]) + geom_vline(xintercept=col_mean, colour='red') 
+      #define the histogram. The color of the bars is made to be blue and the binwidth is made to num_bins. The label for the x axis is made to be the name of the ith numeric column. A red vertical line for the mean is added.
       print(Num_Plot) #print the histogram
       print(Num_Plot + aes(y=..density..) + labs(y="Density")) #define y aesthetic to be density and define the label of the y axis to be Density. The histogram using density is printed for each numeric column
       }
